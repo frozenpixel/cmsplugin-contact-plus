@@ -7,7 +7,8 @@ from django.template.defaultfilters import slugify
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 
-from captcha.fields import ReCaptchaField
+from snowpenguin.django.recaptcha2.fields import ReCaptchaField
+from snowpenguin.django.recaptcha2.widgets import ReCaptchaWidget
 from simplemathcaptcha.fields import MathCaptchaField
 from cmsplugin_contact_plus.models import ContactPlus, ContactRecord
 from cmsplugin_contact_plus.signals import contact_message_sent
@@ -24,7 +25,7 @@ class ContactFormPlus(forms.Form):
                     self.fields[slugify(extraField.label)] = forms.CharField(label=extraField.label,
                             initial=extraField.initial,
                             widget=forms.TextInput(
-                                attrs={'placeholder': extraField.placeholder}
+                                attrs={'class': 'form-control', 'placeholder': extraField.placeholder}
                             ),
                             required=extraField.required)
                 elif extraField.fieldType == 'BooleanField':
@@ -35,28 +36,28 @@ class ContactFormPlus(forms.Form):
                     self.fields[slugify(extraField.label)] = forms.EmailField(label=extraField.label,
                             initial=extraField.initial,
                             widget=forms.TextInput(
-                                attrs={'placeholder': extraField.placeholder}
+                                attrs={'class': 'form-control', 'placeholder': extraField.placeholder}
                             ),
                             required=extraField.required)
                 elif extraField.fieldType == 'DecimalField':
                     self.fields[slugify(extraField.label)] = forms.DecimalField(label=extraField.label,
                             initial=extraField.initial,
                             widget=forms.TextInput(
-                                attrs={'placeholder': extraField.placeholder}
+                                attrs={'class': 'form-control', 'placeholder': extraField.placeholder}
                             ),
                             required=extraField.required)
                 elif extraField.fieldType == 'FloatField':
                     self.fields[slugify(extraField.label)] = forms.FloatField(label=extraField.label,
                             initial=extraField.initial,
                             widget=forms.TextInput(
-                                attrs={'placeholder': extraField.placeholder}
+                                attrs={'class': 'form-control', 'placeholder': extraField.placeholder}
                             ),
                             required=extraField.required)
-                elif extraField.fieldType == 'FileField': 
+                elif extraField.fieldType == 'FileField':
                     self.fields[slugify(extraField.label)] = forms.FileField(label=extraField.label,
                             initial=extraField.initial,
                             required=extraField.required)
-                elif extraField.fieldType == 'ImageField': 
+                elif extraField.fieldType == 'ImageField':
                     self.fields[slugify(extraField.label)] = forms.ImageField(label=extraField.label,
                             initial=extraField.initial,
                             required=extraField.required)
@@ -64,7 +65,7 @@ class ContactFormPlus(forms.Form):
                     self.fields[slugify(extraField.label)] = forms.IntegerField(label=extraField.label,
                             initial=extraField.initial,
                             widget=forms.TextInput(
-                                attrs={'placeholder': extraField.placeholder}
+                                attrs={'class': 'form-control', 'placeholder': extraField.placeholder}
                             ),
                             required=extraField.required)
                 elif extraField.fieldType == 'DateField':
@@ -79,14 +80,14 @@ class ContactFormPlus(forms.Form):
                     self.fields[slugify(extraField.label)] = forms.IPAddressField(label=extraField.label,
                             initial=extraField.initial,
                             widget=forms.TextInput(
-                                attrs={'placeholder': extraField.placeholder}
+                                attrs={'class': 'form-control', 'placeholder': extraField.placeholder}
                             ),
                             required=extraField.required)
                 elif extraField.fieldType == 'auto_Textarea':
                     self.fields[slugify(extraField.label)] = forms.CharField(label=extraField.label,
                             initial=extraField.initial,
                             widget=forms.Textarea(
-                                attrs={'placeholder': extraField.placeholder}
+                                attrs={'class': 'form-control', 'placeholder': extraField.placeholder}
                             ),
                             required=extraField.required)
                 elif extraField.fieldType == 'auto_hidden_input':
@@ -111,6 +112,7 @@ class ContactFormPlus(forms.Form):
                     self.fields[slugify(extraField.label)] = ReCaptchaField(
                                                 label=extraField.label,
                                                 initial=extraField.initial,
+                                                widget=ReCaptchaWidget(),
                                                 required=True)
                 elif extraField.fieldType == 'auto_GET_parameter':
                     lInitial = _("Key/value parameter not available.")
@@ -125,7 +127,7 @@ class ContactFormPlus(forms.Form):
                         label=extraField.label,
                         initial=extraField.initial,
                         widget=forms.Textarea(
-                            attrs={'placeholder': extraField.placeholder}
+                            attrs={'class': 'form-control', 'placeholder': extraField.placeholder}
                         ),
                         required=extraField.required,
                         validators=get_validators())

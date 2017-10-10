@@ -20,3 +20,4 @@ sdist
 
 # Sphinx
 docs/_build
+.idea/
